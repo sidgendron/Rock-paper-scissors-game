@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 150px auto;
+        width: 400px;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: row;
+      }
+
+      button {
+        margin: 20px 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .scores {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rock Paper Scissors</h1>
+      <p>Choose your move:</p>
+
+      <div class="buttons">
+        <button id="rockButton">✊ Rock</button>
+        <button id="paperButton">✊ Paper</button>
+        <button id="scissorsButton">✌️ Scissors</button>
+      </div>
+
+      <p id="userChoiceText">You: -</p>
+      <p id="computerChoiceText">Computer: -</p>
+
+      <h2 id="result">Let's play!</h2>
+      <p id="scores">Wins: 0 | Losses: 0 | Ties: 0</p>
+
+      <button id="resetButton">Reset</button>
+    </div>
+
+    <script>
+      const rockButton = document.querySelector("#rockButton");
+      const paperButton = document.querySelector("#paperButton");
+      const scissorButton = document.querySelector("#scissorsButton");
+      const resetButton = document.querySelector("#resetButton");
+
+      const userChoiceText = document.querySelector("#userChoiceText");
+      const computerChoiceText = document.querySelector("#computerChoiceText");
+
+      const result = document.querySelector("#result");
+      const scoreText = document.querySelector("#scores");
+      const userChoice;
+
+      let wins = 0;
+      let losses = 0;
+      let ties = 0;
+
+      // Function to update the score
+      function updateScore() {
+        scoreText.textContent = `Wins: ${wins} | Losses: ${losses} | Ties: ${ties}`;
+      }
+
+      // Define logic that illustrates how computer works
+      function play(userChoice) {
+        const choices = ["rock", "paper", "scissors"];
+        const randomIndex = Math.floor(Math.random() * choices.length); // Math.random() generates random value between 0 and 1, so multiply by 3 to have from 0 to 2. Then Math.floor() is gonna round it up to make it an integer value (so u wouldn't get 1.99).
+        const computerChoiceValue = choices[randomIndex];
+
+        userChoiceText.textContent = `You: ${userChoice}`;
+        computerChoiceText.textContent = `Computer: ${computerChoiceValue}`;
+
+        if (userChoice === computerChoice) {
+          result.textContent = "It's a tie!";
+          ties++;
+        } else if (
+          (userChoice === "rock" && computerChoiceValue === "scissors") ||
+          (userChoice === "paper" && computerChoiceValue === "rock") ||
+          (userChoice === "scissors" && computerChoiceValue === "paper")
+        ) {
+          result.textContent = "You win!";
+          wins++;
+        } else {
+          result.textContent = "You lose!";
+          losses++;
+        }
+
+        updateScore();
+      }
+
+      function resetGame() {
+        wins = 0;
+        losses = 0;
+        ties = 0;
+
+        updateScore();
+        result.textContent = "Let's play!";
+        userChoiceText.textContent = "You: -";
+        computerChoiceText.textContent = "Computer: -";
+      }
+
+      rockButton.addEventListener("click", () => {
+        play("rock");
+      });
+      paperButton.addEventListener("click", () => {
+        play("paper");
+      });
+      scissorButton.addEventListener("click", () => {
+        play("scissors");
+      });
+      resetButton.addEventListener("click", resetGame);
+    </script>
+  </body>
+</html>
